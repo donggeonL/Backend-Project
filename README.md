@@ -1,5 +1,3 @@
-# Backend-Project
-
 ## 농산물 주식 모의투자
 
 # My Team
