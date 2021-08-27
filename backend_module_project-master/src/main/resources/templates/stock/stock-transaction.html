@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragment/header"></div>
+</head>
+
+<body>
+<nav th:replace="fragment/navbar"></nav>
+
+<div class="container text-center">
+
+    <h1 th:text="${user.name} + '님의 거래 내역입니다.'"></h1>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>주식 종목</th>
+            <th>구입 가격</th>
+            <th>판매 날짜</th>
+            <th>판매 가격</th>
+            <th>판매 수량</th>
+            <th>판매 수익</th>
+        </tr>
+        <tr th:each="item : ${orderLogList}">
+            <td th:text="${item.stock.keyword}"></td>
+            <td th:text="${item.boughtPrice}"></td>
+            <td th:text="${item.soldDate}"></td>
+            <td th:text="${item.soldPrice}"></td>
+            <td th:text="${item.soldQuantity}"></td>
+            <td th:text="${(item.soldPrice - item.boughtPrice) * item.soldQuantity}"></td>
+        </tr>
+    </table>
+
+</div>
+
+
+<footer th:replace="fragment/footer"></footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragment/header"></div>
+    <style>
+        .arrange {
+            margin: 100px 10px 130px;
+        }
+
+        .pagination {
+            position: absolute;
+            float: left;
+            bottom: 120px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="fragment/navbar"></nav>
+<!--float: left; margin-right: 30px; margin-top: 50px; margin-bottom: 50px; display: inline-block"-->
+
+<div class="container mb-4">
+    <table class="table table-hover arrange">
+        <tr>
+            <th>종목 이름</th>
+            <th>가격</th>
+            <th>날짜</th>
+            <th>잔여 수량</th>
+            <th>자세히</th>
+        </tr>
+        <tr th:each="info : ${infoList}">
+            <td th:text="${info.stock.keyword}"></td>
+            <td th:text="${info.price}"></td>
+            <td th:text="${info.infoDate}"></td>
+            <td th:text="${info.stock.quantity}"></td>
+            <td><a th:href="@{/stock/chart/{name}(name=${info.stock.name})}" class="btn btn-primary" th:text="${info.stock.name}"></a></td>
+        </tr>
+    </table>
+</div>
+
+<footer th:replace="fragment/footer"></footer>
+</body>
+
+</html>

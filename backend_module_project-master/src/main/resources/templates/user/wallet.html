@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragment/header"></div>
+    <style>
+        #carouselExampleIndicators {
+            margin-top: 10px;
+            margin-bottom: 100px;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="fragment/navbar"></nav>
+<br><br>
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+
+
+        <div class="container text-center">
+            <div style="float:right">
+                <form method="GET" action="/searchProduct">
+                    <label for="keyword">종목검색 :</label>
+                    <select id="keyword" name="productName">
+                        <option value='' selected>-- 선택 --</option>
+                        <option th:each="keyword : ${keywordList}"
+                                th:text="${keyword}" th:value="${keyword}"></option>
+                    </select>
+                    <button type="submit">Go</button>
+                </form>
+            </div>
+
+            <div style="clear:right">
+                <h1 th:text="${user.name} + '님의 잔고'"></h1>
+
+                <p th:text="'현재 계좌 잔고 : '+${user.budget} + '원'"></p>
+
+            </div>
+            <p th:text="'현재 자산 : '+${userTotalBudget + user.budget} + '원'"></p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>종목</th>
+                    <th>구매평가금액</th>
+                    <th>구매금액합계</th>
+                    <th>현재금액</th>
+                    <th>구매금액합계</th>
+                    <th>수량</th>
+                    <th>수익률</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dto : ${orderDtoList}">
+                    <td>
+                        <a th:href="@{/stock/chart/{name}(name=${dto.name})}"
+                           th:text="${dto.keyword}" style="text-decoration: none;">
+                        </a>
+                    </td>
+
+                    <td th:text="${dto.boughtPrice}"></td>
+                    <td th:text="${dto.boughtPrice * dto.quantity}"></td>
+                    <td th:text="${dto.nowPrice}"></td>
+                    <td th:text="${dto.nowPrice * dto.quantity}"></td>
+                    <td th:text="${dto.quantity}"></td>
+                    <td th:text="${dto.percent}"></td>
+                </tr>
+                <tr th:each="number : ${#numbers.sequence(orderDtoList.size(), 10)}">
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<footer th:replace="fragment/footer"></footer>
+
+</html>

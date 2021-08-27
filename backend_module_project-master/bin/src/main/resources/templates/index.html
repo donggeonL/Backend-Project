@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header"></head>
+<body>
+<nav th:replace="fragment/navbar"></nav>
+
+
+<div th:if="${session.id != null}">
+    <h1 th:text="${session.id.userId} + '님 어서오세요'"></h1>
+    <ul>
+        <li th:text="'이름' + ${session.id.name}"></li>
+        <li th:text="'나이' + ${session.id.age}"></li>
+        <li th:text="'이메일' + ${session.id.email}"></li>
+    </ul>
+    <a href="/logout">로그아웃</a>
+</div>
+<h1 th:if="${session.id == null}">로그인 해주세요.</h1>
+
+<footer th:replace="fragment/footer"></footer>
+</body>
+</html>

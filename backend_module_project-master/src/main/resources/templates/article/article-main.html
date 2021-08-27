@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragment/header"></div>
+    <style>
+        .arrange {
+            margin: 45px 10px 100px;
+        }
+
+        .pagination {
+            position: absolute;
+            float: left;
+            bottom: 120px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="fragment/navbar"></nav>
+<!--float: left; margin-right: 30px; margin-top: 50px; margin-bottom: 50px; display: inline-block"-->
+
+<div class="container mb-4">
+    <div th:each="stock : ${stockList}" class="arrange" style="display: inline-block">
+        <div class="card border-secondary m-1" style="max-width: 18rem;">
+            <div class="card-header bg-secondary text-light border-secondary" th:text="${stock.keyword}" style="text-align: center"></div>
+            <div th:each="article : ${articleList}" th:if="${stock.keyword == article.keyword}" class="card-body text-secondary"
+                 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <a class="card-text" th:text="${article.title}" th:href="${article.url}" target="_blank"></a>
+            </div>
+            <a class="card-footer border-secondary btn-outline-secondary" style="text-align: center"
+               th:href="'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' + ${stock.keyword}">기사 더 보기
+            </a>
+        </div>
+    </div>
+
+    <ul class="pagination">
+        <li th:if="${page == 0}" class="page-item disabled">
+            <a class="page-link" aria-disabled="true">prev</a>
+        </li>
+        <li th:unless="${page == 0}" class="page-item">
+            <a class="page-link" th:href="@{/article/{page}(page=${page - 1})}">prev</a>
+        </li>
+
+        <li th:each="num : ${#numbers.sequence(1, maxPage + 1)}" class="page-item">
+            <a class="page-link" th:href="@{/article/{page}(page=${num - 1})}" th:text="${num}"></a>
+        </li>
+
+        <li th:if="${page == maxPage}" class="page-item disabled">
+            <a class="page-link" aria-disabled="true">next</a>
+        </li>
+        <li th:unless="${page == maxPage}" class="page-item">
+            <a class="page-link" th:href="@{/article/{page}(page=${page + 1})}">next</a>
+        </li>
+    </ul>
+</div>
+
+<footer th:replace="fragment/footer"></footer>
+</body>
+
+</html>

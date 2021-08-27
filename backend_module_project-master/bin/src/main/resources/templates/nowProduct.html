@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var id = "[[${stockId}]]";
+	/*]]>*/
+	google.load('visualization', '1', {
+		'packages': ['corechart']
+	});
+
+	google.setOnLoadCallback(drawChart); //라이브러리를 불러오는 작업이 완료되었으면 drawChart작업을 실행하라는 뜻.
+	function drawChart() {
+		var jsonData = $.ajax({
+			type: "POST",
+			url: "/chart",
+			//json에 sampleData.json파일을 불러온다.
+			//확장자가 json이면 url 맵핑을 꼭 해주어야 한다. 안해주면 자바파일인줄 알고 404에러가 발생한다.
+			//그렇기 때문에 servlet-context파일에서 리소스를 맵핑해준다.
+			dataType: "json",
+			async: false,
+			data: {num: id},
+
+		}).responseText;
+
+		//데이터테이블 생성
+		var data = new google.visualization.DataTable(jsonData);
+
+		//제이슨 형식을 구글의 테이블 형식으로 바꿔주기 위해서 집어넣음
+		//차트를 출력할 div
+		//LineChart, ColumnChart, PieChart에 따라서 차트의 형식이 바뀐다.
+
+		var chart = new google.visualization.LineChart(
+			document.getElementById('chart')); //꺾은선 그래프
+
+		//데이터를 가지고 (타이틀, 높이, 너비) 차트를 그린다.
+		chart.draw(data, {
+			//curveType : "function", //curveType는 차트의 모양이 곡선으로 바뀐다는 뜻
+			width: 800,
+			height: 500
+		});
+	}
+</script>
+
+<h3 th:text="${name}"> </h3>
+<!-- 차트 출력 영역 -->
+<div id="chart"></div>
+<div>
+	현재 가격 : [[${todayPrice}]]([[${diffPer}]])
+	[[${opt}]]
+</div>
+
+<div>
+	<script>
+		$(document).ready(function () {
+			var count = $("#cnt").val();
+			$("#cnt").on("change keyup paste", function () {
+				count = $(this).val();
+			})
+
+			$("button[name='buy']").on("click", function () {
+				$.ajax({
+					type: "POST",
+					url: "/order",
+
+					data: {cnt: count, flag: 0},
+					success: function (data) {
+						if (!data)
+							alert("잔액 부족");
+						else {
+							alert("매수 완료");
+
+						}
+					}
+				});
+			});
+
+			$("button[name='sell']").on("click", function () {
+				$.ajax({
+					type: "POST",
+					url: "/order",
+
+					data: {cnt: count, flag: 1},
+					success: function (data) {
+						if (!data)
+							alert("보유수량 부족");
+						else {
+							alert("매도완료");
+						}
+					}
+				});
+			});
+		});
+	</script>
+
+	수량 : <input type="number" id="cnt" value="1" /><br>
+	<button name="buy">매수</button>
+	<button name="sell">매도</button>
+
+
+</div>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="fragment/header"></div>
+</head>
+
+<body>
+	<nav th:replace="fragment/navbar"></nav><br><br>
+
+	<div class="my-center">
+		<div class="container">
+			<div class="col-md-8" style="float: none; margin:0 auto;">
+				<div class="container">
+					<div class="input-form-backgroud row">
+						<div class="input-form col-md-12 mx-auto">
+							<h1 class="mb-3">회원 정보</h1><hr><br>
+							<form class="validation-form">
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<label for="name">이름</label>
+										<input type="text" class="form-control" id="name"
+											   th:value="${user.name}" disabled>
+									</div>
+									<div class="col-md-6 mb-3"> <label for="age">나이</label>
+										<input type="number" class="form-control" id="age"
+											   th:value="${user.age}" disabled>
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="userId">아이디</label>
+									<input type="text" class="form-control" id="userId"
+										   th:value="${user.userId}" disabled>
+								</div>
+								<div class="mb-3"> <label for="email">이메일</label>
+									<input type="email" class="form-control" id="email"
+										   th:value="${user.email}" disabled>
+								</div>
+								<div class="mb-3"> <label for="budget">포인트</label>
+									<input type="number" class="form-control" id="budget"
+										   th:value="${user.budget}" disabled>
+								</div><br><hr>
+								<a th:if="${session.user.id == user.id}"
+								   th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-primary btn-lg btn-block">
+									수정
+								</a>
+								<a th:if="${session.user.id == user.id}"
+								   th:href="@{/user/history/{id}(id=${user.id})}" class="btn btn-primary btn-lg btn-block">
+									거래 내역
+								</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br><br>
+	</div>
+
+	<footer th:replace="fragment/footer"></footer>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+package com.example.demo.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HomeController {
+	@GetMapping("/home")
+	public String home(@RequestParam("name1") String name1, @RequestParam("name2") String name2) {
+
+		return name1 +"," + name2;		
+	}
+
+}

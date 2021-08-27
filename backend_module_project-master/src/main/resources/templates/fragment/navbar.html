@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <a class="navbar-brand" href="/" style="color: #1abc9c"><i class="fas fa-tractor"></i> NMT</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/article/0">Article</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/stock">Stock</a>
+          </li>
+          <li th:if="${session.user != null}" class="nav-item">
+            <a class="nav-link" th:href="@{/user/wallet/{id}(id=${session.user.id})}">Wallet</a>
+          </li>
+        </ul>
+        <div th:if="${session.user == null}">
+          <a class="btn btn-outline-secondary" href="/signUp" type="submit">
+            <i class="fas fa-user-plus"></i> Sign up</a>&nbsp;
+          <a class="btn btn-outline-secondary" href="/logIn" type="submit">
+            <i class="fas fa-sign-in-alt"></i> Log in</a>
+        </div>
+        <div th:unless="${session.user == null}">
+          <span class="nav-item" th:text="${session.user.name} + '님 반갑습니다.'"></span>
+          <a class="btn btn-outline-secondary" th:href="@{/user/info/{id}(id=${session.user.id})}" type="submit">
+            <i class="fas fa-user"></i> My Page</a>&nbsp;
+          <a class="btn btn-outline-secondary" href="/logOut" type="submit">
+            <i class="fas fa-sign-out-alt"></i> Log out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

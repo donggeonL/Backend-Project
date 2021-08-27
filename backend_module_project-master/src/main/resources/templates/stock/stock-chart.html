@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <div th:replace="fragment/header"></div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var id = "[[${stock.id}]]";
+        /*]]>*/
+        google.load('visualization', '1', {
+            'packages': ['corechart']
+        });
+
+        google.setOnLoadCallback(drawChart); //라이브러리를 불러오는 작업이 완료되었으면 drawChart작업을 실행하라는 뜻.
+        function drawChart() {
+            var jsonData = $.ajax({
+                type: "GET",
+                url: "/chart",
+                //json에 sampleData.json파일을 불러온다.
+                //확장자가 json이면 url 맵핑을 꼭 해주어야 한다. 안해주면 자바파일인줄 알고 404에러가 발생한다.
+                //그렇기 때문에 servlet-context파일에서 리소스를 맵핑해준다.
+                dataType: "json",
+                async: false,
+                data: {id: id},
+
+            }).responseText;
+
+            //데이터테이블 생성
+            var data = new google.visualization.DataTable(jsonData);
+
+            //제이슨 형식을 구글의 테이블 형식으로 바꿔주기 위해서 집어넣음
+            //차트를 출력할 div
+            //LineChart, ColumnChart, PieChart에 따라서 차트의 형식이 바뀐다.
+
+            var chart = new google.visualization.LineChart(
+                document.getElementById('chart')); //꺾은선 그래프
+
+            //데이터를 가지고 (타이틀, 높이, 너비) 차트를 그린다.
+            chart.draw(data, {
+                //curveType : "function", //curveType는 차트의 모양이 곡선으로 바뀐다는 뜻
+                width: 1300,
+                height: 500
+            });
+        }
+    </script>
+    <style>
+        h1 {
+            margin-top: 50px;
+        }
+
+        .btn-area {
+            margin: 55px 0;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="fragment/navbar"></nav>
+<div style="text-align: center;">
+    <h1 th:text="${stock.keyword}"></h1>
+
+    <!-- 차트 출력 영역 -->
+    <div id="chart" style="width: 1300px; height: 500px; margin: auto;"></div>
+</div>
+<div th:if="${session.user != null}" class="btn-area">
+    <div style="text-align: center;">
+        <p th:text="'잔여 수량 : ' + ${stock.quantity}"></p>
+        <p th:text="'현재 가격 : ' + ${todayPrice}+'('+${diffPer}+'%)'"></p>
+
+        수량 : <input type="number" id="cnt" value="1"/><br>
+        <button name="buy">매수</button>
+        <button name="sell">매도</button>
+    </div>
+</div>
+<div th:unless="${session.user != null}"
+     style="display: inline-block; height: 200px">
+</div>
+
+<footer th:replace="fragment/footer"></footer>
+<script>
+    $(document).ready(function () {
+        var count = $("#cnt").val();
+        $("#cnt").on("change keyup paste", function () {
+            count = $(this).val();
+        })
+
+        $("button[name='buy']").on("click", function () {
+            $.ajax({
+                type: "GET",
+                url: "/order",
+
+                data: {
+                    cnt: count,
+                    flag: 0,
+                    stockId: id
+                },
+                success: function (data) {
+                    if (!data) {
+                        alert("매수 실패..");
+                    }
+                    else {
+                        alert("매수 완료!!");
+                        window.location.href = "/user/wallet/" + [[${session.user.id}]];
+                    }
+                }
+            });
+        });
+
+        $("button[name='sell']").on("click", function () {
+            console.log(id);
+
+            $.ajax({
+                type: "GET",
+                url: "/order",
+
+                data: {
+                    cnt: count,
+                    flag: 1,
+                    stockId: id},
+                success: function (data) {
+                    if (!data)
+                        alert("매도 실패..");
+                    else {
+                        alert("매도 완료!!");
+                        window.location.href = "/user/wallet/" + [[${session.user.id}]];
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
