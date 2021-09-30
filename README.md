@@ -3,4 +3,4 @@
 ## My Team
 <p> 박현근(idiot2222), 장주언(jje951122), 이동건(donggeonL), 진예슬(yeseul111) </p>
 
-## 구성도 
+## DB 구성도 
