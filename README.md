@@ -9,4 +9,4 @@
 
 <h1> DB 구성도 </h1>
 
-> ![image](https://github.com/donggeonL/Backend-Project/issues/2)
+> ![image](https://user-images.githubusercontent.com/87507644/135515522-38ea8e92-21ec-4bc8-9e45-0dc808df42f2.png)
