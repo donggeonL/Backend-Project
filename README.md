@@ -22,8 +22,6 @@
 >* OracleDB
 
 ## 기능
-
-> ![image](https://user-images.githubusercontent.com/76868571/131085521-224ad850-890a-445f-a9da-0b306a583fa6.png)
 > * 메인 페이지  
 > * 로그인/회원가입 페이지
 > * 농산물 상세 페이지  
