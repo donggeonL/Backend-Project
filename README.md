@@ -5,7 +5,7 @@
 
 <h1> 화면 구성도</h1> 
 
-> ![image](https://github.com/donggeonL/Backend-Project/issues/3)
+> ![image](https://user-images.githubusercontent.com/87507644/153648040-fe46c8bb-5a1c-416b-b5f1-e630c7ef749b.png)
 
 <h1> 화면 구성도</h1> 
 
