@@ -1,9 +1,8 @@
 # 농산물 주식 모의투자
 
 <h1> My Team </h1>
-> <p> 박현근(idiot2222), 장주언(jje951122), 이동건(donggeonL), 진예슬(yeseul111) </p>
->
-> <a href="https://github.com/donggeonL/Backend-Project/tree/master"> Project Code </a>
+<p> 박현근(idiot2222), 장주언(jje951122), 이동건(donggeonL), 진예슬(yeseul111) </p>
+<a href="https://github.com/donggeonL/Backend-Project/tree/master"> Project Code </a>
 
 <h1> 화면 구성도</h1> 
 
